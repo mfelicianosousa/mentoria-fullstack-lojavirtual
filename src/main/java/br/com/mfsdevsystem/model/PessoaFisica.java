@@ -17,6 +17,7 @@ public class PessoaFisica extends Pessoa {
 
 	private static final long serialVersionUID = 1L;
 	
+
 	private String nome;
 	
 	@Column(nullable = false)

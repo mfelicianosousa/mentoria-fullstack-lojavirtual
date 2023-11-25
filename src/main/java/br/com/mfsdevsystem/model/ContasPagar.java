@@ -6,7 +6,9 @@ import java.util.Date;
 import java.util.Objects;
 
 import br.com.mfsdevsystem.enums.StatusContasPagar;
-import br.com.mfsdevsystem.enums.StatusContasReceber;
+import br.com.mfsdevsystem.enums.StatusDeLancamento;
+import br.com.mfsdevsystem.enums.TipoDeLancamento;
+import jakarta.persistence.Column;
 import jakarta.persistence.ConstraintMode;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -34,7 +36,18 @@ public class ContasPagar implements Serializable {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence_contas_pagar")
 	private Long id ;
 	
-	private String descricao;
+	//@NotNull(message="Informe o tipo de lançamento")
+	@Enumerated(EnumType.STRING)
+	@Column(name="tipo_lancamento", nullable=false, length=1)
+	private TipoDeLancamento tipoLancamento=TipoDeLancamento.SAÍDA ;//ENTRADA ou SAIDA
+	
+	//@NotNull(message="Informe a situação de lançamento")
+	@Enumerated(EnumType.STRING)
+	@Column(name = "status_lancamento", length=9)
+	private StatusDeLancamento statusLancamento=StatusDeLancamento.Pendente; //Pendente,Pago,Cancelado;
+	
+	@Column(name="numero", nullable=false, length=50)
+	private String historico;
 	
 	@Enumerated(EnumType.STRING)
 	private StatusContasPagar status;
@@ -48,8 +61,18 @@ public class ContasPagar implements Serializable {
 	@Temporal(TemporalType.DATE)
 	private Date dataPagamento;
 
+	@Column(name="valor_Total", scale=2, precision=12) 
 	private BigDecimal valorTotal;
+	
+	@Column(name="valor_desconto", scale=2, precision=12) 
 	private BigDecimal valorDesconto;
+	
+	@Column(name="valor_acrescimo",scale=2,precision=10)  
+    private BigDecimal valorAcrescimo; //Valor de Acrescimo emcima do valor lançado
+	
+	@Column(name="valor_pago", scale=2, precision=12)  
+    private BigDecimal valorPago;
+	
 	
 	@ManyToOne(targetEntity = Pessoa.class)
 	@JoinColumn(name = "pessoa_id", nullable=false, 
@@ -65,10 +88,10 @@ public class ContasPagar implements Serializable {
 		
 	}
 	
-	public ContasPagar(Long id, String descricao, StatusContasPagar status, Date dataEmissao, Date dataVencimento,
+	public ContasPagar(Long id, String historico, StatusContasPagar status, Date dataEmissao, Date dataVencimento,
 			Date dataPagamento, BigDecimal valorTotal, BigDecimal valorDesconto) {
 		this.id = id;
-		this.descricao = descricao;
+		this.historico = historico;
 		this.status = status;
 		this.dataEmissao = dataEmissao;
 		this.dataVencimento = dataVencimento;
@@ -76,7 +99,6 @@ public class ContasPagar implements Serializable {
 		this.valorTotal = valorTotal;
 		this.valorDesconto = valorDesconto;
 	}
-
 
 
 	public Long getId() {
@@ -87,16 +109,29 @@ public class ContasPagar implements Serializable {
 		this.id = id;
 	}
 
-	
-	public String getDescricao() {
-		return descricao;
+	public TipoDeLancamento getTipoLancamento() {
+		return tipoLancamento;
 	}
 
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
+	public void setTipoLancamento(TipoDeLancamento tipoLancamento) {
+		this.tipoLancamento = tipoLancamento;
 	}
 
-	
+	public StatusDeLancamento getStatusLancamento() {
+		return statusLancamento;
+	}
+
+	public void setStatusLancamento(StatusDeLancamento statusLancamento) {
+		this.statusLancamento = statusLancamento;
+	}
+
+	public String getHistorico() {
+		return historico;
+	}
+
+	public void setHistorico(String historico) {
+		this.historico = historico;
+	}
 
 	public StatusContasPagar getStatus() {
 		return status;
@@ -146,22 +181,28 @@ public class ContasPagar implements Serializable {
 		this.valorDesconto = valorDesconto;
 	}
 
+	public BigDecimal getValorAcrescimo() {
+		return valorAcrescimo;
+	}
+
+	public void setValorAcrescimo(BigDecimal valorAcrescimo) {
+		this.valorAcrescimo = valorAcrescimo;
+	}
+
+	public BigDecimal getValorPago() {
+		return valorPago;
+	}
+
+	public void setValorPago(BigDecimal valorPago) {
+		this.valorPago = valorPago;
+	}
+
 	public Pessoa getPessoa() {
 		return pessoa;
 	}
 
-	public void setPessoa(Pessoa pessoa) {
-		this.pessoa = pessoa;
-	}
-		
-	
-	
 	public Pessoa getFornecedor() {
 		return fornecedor;
-	}
-
-	public void setFornecedor(Pessoa fornecedor) {
-		this.fornecedor = fornecedor;
 	}
 
 	@Override

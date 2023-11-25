@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 import br.com.mfsdevsystem.enums.TipoEndereco;
+import jakarta.persistence.Column;
 import jakarta.persistence.ConstraintMode;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -27,12 +28,26 @@ public class Endereco implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence_endereco")
 	private Long id ;
+	
+	@Column(name = "cep")
 	private String cep;
+	
+	@Column(name = "logradouro")
 	private String logradouro;
+	
+	@Column(name = "numero")
 	private String numero;
+	
+	@Column(name = "complemento")
 	private String complemento;
+	
+	@Column(name = "bairro")
 	private String bairro;
+	
+	@Column(name = "cidade")
 	private String Cidade;
+	
+	@Column(name = "uf")
 	private String uf;
 	
 	@ManyToOne(targetEntity = Pessoa.class)
