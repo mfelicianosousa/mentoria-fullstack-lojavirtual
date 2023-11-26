@@ -15,26 +15,26 @@ import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="nfc_item_produto")
-@SequenceGenerator(name = "sequence_nfc_item_produto", sequenceName = "sequence_nfc_item_produto", allocationSize = 1, initialValue = 1)
+@Table(name="nfe_item_produto")
+@SequenceGenerator(name = "sequence_nfe_item_produto", sequenceName = "sequence_nfe_item_produto", allocationSize = 1, initialValue = 1)
 public class NotaFiscalCompraItemProduto  implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence_nfc_item_produto")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence_nfe_item_produto")
 	private Long id;
 
 	private Double quantidade;
 	
 	@ManyToOne(targetEntity = Produto.class)
 	@JoinColumn(name = "produto_id", nullable=false, 
-	    foreignKey=@ForeignKey(value=ConstraintMode.CONSTRAINT, name="nfc_item_produto_fk"))
+	    foreignKey=@ForeignKey(value=ConstraintMode.CONSTRAINT, name="nfe_item_produto_fk"))
 	private Produto produto;
 
 	@ManyToOne(targetEntity = Produto.class)
 	@JoinColumn(name = "nota_fiscal_compra_id", nullable=false, 
-	    foreignKey=@ForeignKey(value=ConstraintMode.CONSTRAINT, name="nfc_fk"))
+	    foreignKey=@ForeignKey(value=ConstraintMode.CONSTRAINT, name="nfe_fk"))
 	private NotaFiscalCompra notafiscalcompra;
 	
 	public NotaFiscalCompraItemProduto () {

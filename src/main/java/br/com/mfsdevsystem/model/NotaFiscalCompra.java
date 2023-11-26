@@ -1,5 +1,9 @@
 package br.com.mfsdevsystem.model;
-
+/*************************************
+ *  Nota Fiscal de Entrada (Compras)
+ *  Author: Marcelino
+ * 
+ **/
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -20,14 +24,14 @@ import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 
 @Entity
-@Table(name="nfc")
-@SequenceGenerator(name = "sequence_nfc", sequenceName = "sequence_nfc", allocationSize = 1, initialValue = 1)
+@Table(name="nfe")
+@SequenceGenerator(name = "sequence_nfe", sequenceName = "sequence_nfe", allocationSize = 1, initialValue = 1)
 public class NotaFiscalCompra implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence_nfc")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence_nfe")
 	private Long id;
 	
 	@Column(name="numero", nullable=false, length=10)
@@ -62,13 +66,13 @@ public class NotaFiscalCompra implements Serializable {
 	
 	@ManyToOne(targetEntity = Pessoa.class)
 	@JoinColumn(name = "pessoa_id", nullable=false, 
-	     foreignKey=@ForeignKey(value=ConstraintMode.CONSTRAINT, name="nfc_pessoa_fk"))
+	     foreignKey=@ForeignKey(value=ConstraintMode.CONSTRAINT, name="nfe_pessoa_fk"))
 	private Pessoa pessoa;
 	
 	
 	@ManyToOne(targetEntity = ContasPagar.class)
 	@JoinColumn(name = "contas_pagar_id", nullable=false, 
-	     foreignKey=@ForeignKey(value=ConstraintMode.CONSTRAINT, name="nfc_ct_pagar_fk"))
+	     foreignKey=@ForeignKey(value=ConstraintMode.CONSTRAINT, name="nfe_ct_pagar_fk"))
 	private ContasPagar contasPagar;
 
 	public NotaFiscalCompra() {
